@@ -1,11 +1,14 @@
+# Auto detect text files and perform LF normalization
 * text=auto eol=lf
 
+# Custom diff settings
 *.blade.php diff=html
-*.css diff=css
-*.html diff=html
-*.md diff=markdown
-*.php diff=php
+*.css       diff=css
+*.html      diff=html
+*.md        diff=markdown
+*.php       diff=php
 
-/.github export-ignore
-CHANGELOG.md export-ignore
-.styleci.yml export-ignore
+# Ignore these files when exporting
+/.github        export-ignore
+CHANGELOG.md    export-ignore
+.styleci.yml    export-ignore
