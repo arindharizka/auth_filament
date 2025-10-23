@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
+use App\Filament\Resources\PostResource\RelationManagers\CommentsRelationManager; // ✅ penting, namespace yang benar
 use App\Models\Post;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -21,8 +22,6 @@ class PostResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-
-            // Relasi ke akun (Instagram/Facebook)
             Forms\Components\Select::make('account_id')
                 ->relationship('account', 'username')
                 ->searchable()
@@ -77,9 +76,7 @@ class PostResource extends Resource
                 ->dateTime('d-M-Y H:i')
                 ->sortable(),
         ])
-        ->filters([
-            //
-        ])
+        ->filters([])
         ->actions([
             Tables\Actions\EditAction::make(),
             Tables\Actions\DeleteAction::make(),
@@ -93,6 +90,7 @@ class PostResource extends Resource
 
     public static function getRelations(): array
     {
+        // ✅ perbaikan: gunakan class hasil import di atas
         return [
             CommentsRelationManager::class,
         ];
