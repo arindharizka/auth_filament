@@ -5,20 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class InstagramComment extends Model
+class InstagramMetric extends Model
 {
     protected $fillable = [
         'post_id',
-        'commenter_username',
-        'comment_text',
-        'reply_text',
-        'replied_at',
-        'commented_at',
-    ];
-
-    protected $casts = [
-        'replied_at' => 'datetime',
-        'commented_at' => 'datetime',
+        'likes',
+        'comments',
+        'reach',
+        'impressions',
     ];
 
     public function post(): BelongsTo

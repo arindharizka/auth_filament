@@ -21,6 +21,13 @@ class PostResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
+
+            // Relasi ke akun (Instagram/Facebook)
+            Forms\Components\Select::make('account_id')
+                ->relationship('account', 'username')
+                ->searchable()
+                ->required(),
+
             Forms\Components\Select::make('platform')
                 ->options([
                     'instagram' => 'Instagram',
@@ -54,6 +61,7 @@ class PostResource extends Resource
     {
         return $table->columns([
             Tables\Columns\TextColumn::make('id')->sortable(),
+            Tables\Columns\TextColumn::make('account.username')->label('Account')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('platform')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('caption')->limit(30)->searchable(),
             Tables\Columns\TextColumn::make('status')
@@ -86,7 +94,7 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CommentsRelationManager::class,
         ];
     }
 

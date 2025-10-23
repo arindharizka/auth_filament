@@ -10,3 +10,4 @@ Artisan::command('inspire', function () {
 
 // Schedule dummy post processing command
 Schedule::command('posts:process')->everyMinute();
+Schedule::command('instagram:fetch-metrics')->everyMinute(); 

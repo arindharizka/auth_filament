@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Post;
+use App\Services\InstagramService; // tambahkan service dummy
 
 class ProcessScheduledPosts extends Command
 {
@@ -27,20 +28,30 @@ class ProcessScheduledPosts extends Command
     public function handle()
     {
         $now = now();
+        $service = new InstagramService(); // panggil dummy service
 
         $posts = Post::where('status', 'scheduled')
             ->where('scheduled_at', '<=', $now)
+            ->with('account') // eager load relasi biar bisa ambil username
             ->get();
 
         if ($posts->isEmpty()) {
-            $this->warn("No scheduled posts found at {$now}");
+            $this->warn("⚠️ No scheduled posts found at {$now}");
             return;
         }
 
         foreach ($posts as $post) {
-            $this->info("Found Post ID {$post->id} scheduled at {$post->scheduled_at}");
+            // Jalankan dummy API kalau platform-nya Instagram
+            if ($post->account->platform === 'instagram') {
+                $response = $service->publish($post);
+                $this->info("📸 [Instagram Dummy] {$response['message']}");
+            }
+
+            // Update status jadi posted
             $post->update(['status' => 'posted']);
-            $this->info("✅ Post {$post->id} marked as posted at {$now}");
+
+            // Info lengkap di terminal
+            $this->info("✅ Post {$post->id} for {$post->platform} ({$post->account->username}) marked as posted at {$now}");
         }
     }
 }

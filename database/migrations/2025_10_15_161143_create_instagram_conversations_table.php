@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('instagram_conversations', function (Blueprint $table) {
             $table->id();
-            $table->string('platform'); // instagram, facebook, dll
-            $table->string('caption');
-            $table->string('media_url')->nullable();
-            $table->enum('status', ['scheduled', 'posted'])->default('scheduled');
-            $table->timestamp('scheduled_at')->nullable();
             $table->foreignId('account_id')->constrained('accounts')->cascadeOnDelete();
+            $table->string('conversation_id')->unique();
+            $table->string('participant_username');
+            $table->string('last_message')->nullable();
+            $table->timestamp('last_activity_at')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('instagram_conversations');
     }
 };
