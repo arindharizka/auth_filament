@@ -18,6 +18,11 @@ class InstagramPostResource extends Resource
     protected static ?string $navigationGroup = 'Instagram Module';
     protected static ?string $navigationLabel = 'Posts';
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form->schema([

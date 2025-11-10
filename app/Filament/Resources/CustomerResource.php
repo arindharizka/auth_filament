@@ -17,7 +17,17 @@ class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
 
+    // ikon navigation masih boleh didefinisikan meskipun kita sembunyikan
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    /**
+     * Tambahkan method ini untuk mencegah resource muncul di navigation.
+     * Letakkan di dalam class Resource (misal setelah navigationIcon).
+     */
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 
     public static function form(Form $form): Form
     {
