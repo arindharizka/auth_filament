@@ -13,6 +13,12 @@ class InstagramMetric extends Model
         'comments',
         'reach',
         'impressions',
+        'recorded_at', // tetap ada karena kamu isi dari command
+    ];
+
+    // ✅ gunakan casts (Laravel 8 ke atas)
+    protected $casts = [
+        'recorded_at' => 'datetime',
     ];
 
     public function post(): BelongsTo

@@ -10,11 +10,10 @@ return new class extends Migration
     {
         Schema::create('instagram_comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_id')->constrained('posts')->cascadeOnDelete();
-            $table->string('commenter_username');
-            $table->text('comment_text');
-            $table->text('reply_text')->nullable();
-            $table->timestamp('replied_at')->nullable();
+            $table->foreignId('post_id')->constrained()->cascadeOnDelete();
+            $table->string('username');
+            $table->text('comment');
+            $table->boolean('is_replied')->default(false);
             $table->timestamp('commented_at')->nullable();
             $table->timestamps();
         });

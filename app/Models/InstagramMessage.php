@@ -8,14 +8,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class InstagramMessage extends Model
 {
     protected $fillable = [
-        'conversation_id',
+        'instagram_conversation_id',
+        'sender',
         'sender_username',
-        'message_text',
-        'sent_at',
+        'message_text', // ✅ FIX
     ];
 
     public function conversation(): BelongsTo
     {
-        return $this->belongsTo(InstagramConversation::class);
+        return $this->belongsTo(
+            InstagramConversation::class,
+            'instagram_conversation_id'
+        );
     }
 }

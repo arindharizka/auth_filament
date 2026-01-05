@@ -13,19 +13,15 @@ return new class extends Migration
     {
         Schema::create('instagram_messages', function (Blueprint $table) {
             $table->id();
-
-            // Ubah bagian ini: gunakan foreign key ke tabel instagram_conversations
             $table->foreignId('instagram_conversation_id')
-                ->constrained('instagram_conversations')
-                ->cascadeOnDelete();
+                  ->constrained()
+                  ->cascadeOnDelete();
 
-            // Kolom isi pesan
-            $table->string('sender_username');
-            $table->text('message_text');
-            $table->timestamp('sent_at')->nullable();
-
+            $table->enum('sender', ['admin', 'user']);
+            $table->text('message');
             $table->timestamps();
-        });
+});
+
     }
 
     /**

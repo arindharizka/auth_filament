@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
@@ -29,6 +30,11 @@ class Post extends Model
     public function comments()
 {
     return $this->hasMany(\App\Models\InstagramComment::class, 'post_id');
+}
+
+public function instagramComments(): HasMany
+{
+    return $this->hasMany(InstagramComment::class);
 }
 
 }

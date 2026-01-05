@@ -15,7 +15,7 @@ class FetchInstagramMetrics extends Command
     public function handle()
     {
         $service = new InstagramService();
-        $now = now();
+        $now = now(); // waktu pencatatan
 
         // Jika user ingin spesifik post: --post=1 --post=2
         $postIds = $this->option('post');
@@ -25,9 +25,10 @@ class FetchInstagramMetrics extends Command
         });
 
         if (!empty($postIds)) {
+            // Ambil hanya post tertentu
             $query->whereIn('id', $postIds);
         } else {
-            // ambil posts yang sudah posted (atau bisa semua posted)
+            // Default → ambil semua yang statusnya posted
             $query->where('status', 'posted');
         }
 
@@ -39,7 +40,8 @@ class FetchInstagramMetrics extends Command
         }
 
         foreach ($posts as $post) {
-            $metrics = $service->fetchMetrics($post); // harus mengembalikan array likes/comments/reach/impressions
+            // Ambil metrik dummy dari service
+            $metrics = $service->fetchMetrics($post);
 
             InstagramMetric::create([
                 'post_id' => $post->id,
@@ -47,6 +49,9 @@ class FetchInstagramMetrics extends Command
                 'comments' => $metrics['comments'] ?? 0,
                 'reach' => $metrics['reach'] ?? null,
                 'impressions' => $metrics['impressions'] ?? null,
+
+                // ⬇️ WAJIB agar widget chart tidak error
+                'recorded_at' => $now,
             ]);
 
             $this->info("Fetched metrics for Post {$post->id} (Account: {$post->account->username})");

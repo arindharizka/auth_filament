@@ -14,6 +14,7 @@ class InstagramConversation extends Model
         'participant_username',
         'last_message',
         'last_activity_at',
+        'status', // ✅ WAJIB untuk CRM mini
     ];
 
     /**
@@ -27,6 +28,11 @@ class InstagramConversation extends Model
             if (empty($conversation->conversation_id)) {
                 $conversation->conversation_id = uniqid('conv_');
             }
+
+            // default status kalau belum diset
+            if (empty($conversation->status)) {
+                $conversation->status = 'new';
+            }
         });
     }
 
@@ -35,7 +41,7 @@ class InstagramConversation extends Model
      */
     public function messages(): HasMany
     {
-        return $this->hasMany(InstagramMessage::class, 'conversation_id');
+        return $this->hasMany(InstagramMessage::class);
     }
 
     /**

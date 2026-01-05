@@ -7,17 +7,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class InstagramComment extends Model
 {
+    protected $table = 'instagram_comments';
+
     protected $fillable = [
         'post_id',
-        'commenter_username',
-        'comment_text',
-        'reply_text',
-        'replied_at',
+        'username',
+        'comment',
+        'is_replied',
         'commented_at',
     ];
 
     protected $casts = [
-        'replied_at' => 'datetime',
+        'is_replied' => 'boolean',
         'commented_at' => 'datetime',
     ];
 
